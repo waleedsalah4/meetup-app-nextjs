@@ -24,7 +24,7 @@ function MeetupDetailsPage(props) {
 }
 
 export async function getStaticPaths() {
-    const client = await MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+    const client = await MongoClient.connect('mongodb+srv://wello:database_data@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
     const db = client.db();
   
     const meetupCollections = db.collection('meetups');
@@ -44,7 +44,7 @@ export async function getStaticProps(context){
     //fetch data for a songle meetup
     const meetupId = context.params.meetupId;
 
-    const client = await MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+    const client = await MongoClient.connect('mongodb+srv://wello:database_data@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
     const db = client.db();
   
     const meetupCollections = db.collection('meetups');
