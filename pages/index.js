@@ -1,37 +1,23 @@
+import Head from 'next/head';
+import { MongoClient } from 'mongodb';
 import MeetupList from '../components/meetups/MeetupList';
 
-// import { Inter } from '@next/font/google'
-// import styles from '../styles/Home.module.css'
-// const inter = Inter({ subsets: ['latin'] })
-const DUMMY_MEETUPS = [
-  {
-    id: 'm1',
-    title: 'A First Meetup',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg',
-    address: 'Some Adress 5, 1245 Some City',
-    description: 'This a first meetup',
-  },
-  {
-    id: 'm2',
-    title: 'A Second Meetup',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg',
-    address: 'Some Adress 10, 1245 Some City',
-    description: 'This a second meetup',
-  },
-  {
-    id: 'm3',
-    title: 'A Third Meetup',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg',
-    address: 'Some Adress 15, 12545 Some City',
-    description: 'This a Third meetup',
-  }
-]
+
 
 
 function HomePage(props) {
 
   return (
-    <MeetupList meetups={props.meetups} />
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta 
+          name='description' 
+          content='Browse a huge list of highly active React meetups' 
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </>
   )
 }
 
@@ -48,9 +34,22 @@ function HomePage(props) {
 
 export async function getStaticProps(){
   // fetch data from an API
+  const client = await MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+  const db = client.db();
+
+  const meetupCollections = db.collection('meetups');
+
+  const meetups = await meetupCollections.find().toArray();
+  client.close();
+
   return {
     props: {
-      meetups: DUMMY_MEETUPS
+      meetups: meetups.map(meetup => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id:meetup._id.toString()
+      }))
     },
     revalidate: 1
   }
