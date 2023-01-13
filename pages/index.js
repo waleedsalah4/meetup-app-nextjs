@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { MongoClient } from 'mongodb';
 import MeetupList from '../components/meetups/MeetupList';
+const user_Pass = process.env.NEXT_PUBLIC_UESER_PASS
 
 
 
@@ -34,7 +35,7 @@ function HomePage(props) {
 
 export async function getStaticProps(){
   // fetch data from an API
-  const client = await MongoClient.connect('mongodb+srv://wello:database_data@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+  const client = await MongoClient.connect(`mongodb+srv://${user_Pass}@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority`)
   const db = client.db();
 
   const meetupCollections = db.collection('meetups');

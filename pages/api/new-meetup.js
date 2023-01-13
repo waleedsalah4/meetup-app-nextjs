@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+const user_Pass = process.env.NEXT_PUBLIC_UESER_PASS
 
 // /api/new*meetup
 
@@ -7,7 +8,7 @@ async function handler(req,res) {
         if(req.method === 'POST'){
             const data = req.body;
 
-            const client = await MongoClient.connect('mongodb+srv://wello:database_data@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+            const client = await MongoClient.connect(`mongodb+srv://${user_Pass}@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority`)
             const db = client.db();
     
             const meetupCollections = db.collection('meetups');

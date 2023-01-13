@@ -1,6 +1,7 @@
 import Head from "next/head"
 import { MongoClient,ObjectId } from "mongodb"
 import MeetupDetails from "../../components/meetups/MeetupDetails"
+const user_Pass = process.env.NEXT_PUBLIC_UESER_PASS
 
 function MeetupDetailsPage(props) {
     return (
@@ -24,7 +25,7 @@ function MeetupDetailsPage(props) {
 }
 
 export async function getStaticPaths() {
-    const client = await MongoClient.connect('mongodb+srv://wello:database_data@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+    const client = await MongoClient.connect(`mongodb+srv://${user_Pass}@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority`)
     const db = client.db();
   
     const meetupCollections = db.collection('meetups');
@@ -44,7 +45,7 @@ export async function getStaticProps(context){
     //fetch data for a songle meetup
     const meetupId = context.params.meetupId;
 
-    const client = await MongoClient.connect('mongodb+srv://wello:database_data@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority')
+    const client = await MongoClient.connect(`mongodb+srv://${user_Pass}@cluster0.g8pdzal.mongodb.net/meetups?retryWrites=true&w=majority`)
     const db = client.db();
   
     const meetupCollections = db.collection('meetups');
